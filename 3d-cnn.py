@@ -10,18 +10,10 @@ def get_training_data():
     flag_first_element = 1
     for voxel_file in glob.glob('./data/*.csv'):
         csv = pd.read_csv(voxel_file)
-        x_norm = csv.channel2.tolist()
-        y_norm = csv.channel3.tolist()
-        z_norm = csv.channel4.tolist()
-        occupany = csv.channel4.tolist()
+        (x_norm, y_norm, z_norm, occupany) = (csv.channel2.tolist(), csv.channel3.tolist(), csv.channel4.tolist(), csv.channel4.tolist())
+        (x_cord, y_cord, z_cord) = (csv['ix'].tolist(), csv['iy'].tolist(), csv['iz'].tolist())
+        _3d_x_norm =  _3d_y_norm = _3d_z_norm = _3d_occupancy = np.zeros(shape=(32,32,32))
 
-        x_cord = csv['ix'].tolist()
-        y_cord = csv['iy'].tolist()
-        z_cord = csv['iz'].tolist()
-        _3d_x_norm = np.zeros(shape=(32,32,32))
-        _3d_y_norm = np.zeros(shape=(32,32,32))
-        _3d_z_norm = np.zeros(shape=(32,32,32))
-        _3d_occupancy = np.zeros(shape=(32,32,32))
         for i in range(len(x_cord)):
             _3d_x_norm[x_cord[i],y_cord[i],z_cord[i]] = x_norm[i]
             _3d_y_norm[x_cord[i],y_cord[i],z_cord[i]] = y_norm[i]
@@ -40,6 +32,7 @@ def get_training_data():
     train_array = train_array.reshape(count, 32, 32, 32, 4)
 
     return train_array
+
 
 def get_training_labels():
     csv = pd.read_csv('Path_to_labels_csv')

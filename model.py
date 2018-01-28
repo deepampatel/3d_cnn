@@ -29,5 +29,5 @@ def create_model():
     out = Dense(2, activation='sigmoid')(flatten1)
 
     model = Model(inputs=inp, outputs=out)
-    
+
     return model
