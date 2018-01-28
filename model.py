@@ -7,7 +7,7 @@ from keras.utils import to_categorical
 
 
 def create_model():
-    inp = Input(shape=(32, 32, 32, 3))
+    inp = Input(shape=(32, 32, 32, 4))
 
     Conv_3d_1 = Conv3D( filters=4, kernel_size = (6, 6, 6), strides = (1, 1, 1), padding = 'valid', activation = None, use_bias = True)(inp)
 

@@ -2,12 +2,13 @@ import pandas as pd
 import numpy as np
 import glob
 import model
+from keras.utils import to_categorical
 
 def get_training_data():
     count = 0
     train_array = np.zeros(shape=(32,32,32,4))
     flag_first_element = 1
-    for voxel_file in glob.glob('/Users/deepampatel/PycharmProjects/3D-cnn/data/*.csv'):
+    for voxel_file in glob.glob('./data/*.csv'):
         csv = pd.read_csv(voxel_file)
         x_norm = csv.channel2.tolist()
         y_norm = csv.channel3.tolist()
@@ -48,7 +49,7 @@ def get_training_labels():
 if __name__ == '__main__':
     X_train = get_training_data()
     Y_train = [1]   #get_training_labels()
-    y_binary = to_categorical(y_train, 2)    #One hot encoding the data
+    Y_train = to_categorical(Y_train, 2)    #One hot encoding the data
     modell = model.create_model()
-    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-    model.fit(X_train, y_binary)
+    modell.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    modell.fit(X_train, Y_train)
