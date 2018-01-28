@@ -39,10 +39,20 @@ def get_training_labels():
     labels = csv['labels']
     return labels.tolist()
 
+def get_labels(y):
+    labels = np.array(['No', 'Yes'])
+    y = labels[y.argmax(1)]
+    return y
+
+
+
 if __name__ == '__main__':
     X_train = get_training_data()
-    Y_train = [1]   #get_training_labels()
+    Y_train = [1,0]   #get_training_labels()
     Y_train = to_categorical(Y_train, 2)    #One hot encoding the data
     modell = model.create_model()
     modell.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     modell.fit(X_train, Y_train)
+    y_test = modell.predict(X_train)
+    y_test = get_labels(y_test)
+    print(y_test)
